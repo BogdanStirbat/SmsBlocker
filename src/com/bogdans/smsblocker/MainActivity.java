@@ -9,9 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
+	
+	private boolean isStarted = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,8 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		isStarted = false;
 	}
 
 	@Override
@@ -59,6 +65,35 @@ public class MainActivity extends ActionBarActivity {
 					false);
 			return rootView;
 		}
+	}
+	
+	public void changeBlockerState(View view) {
+		if (!isStarted) {
+			startBlockerState(view);
+		} else {
+			stopBlockerState(view);
+		}
+	}
+	
+	private void startBlockerState(View view) {
+		isStarted = true;
+		Toast.makeText(getApplicationContext(), "SmsBlocker has started",
+				Toast.LENGTH_LONG).show();
+		Button startButton = getStartButton();
+		startButton.setText(R.string.stop_sms_blocker);
+	}
+	
+	private void stopBlockerState(View view) {
+		isStarted = false;
+		Toast.makeText(getApplicationContext(), "SmsBlocker has stopped",
+				Toast.LENGTH_LONG).show();
+		Button startButton = getStartButton();
+		startButton.setText(R.string.start_sms_blocker);
+	}
+	
+	private Button getStartButton() {
+		Button startButton = (Button) findViewById(R.id.button1);
+		return startButton;
 	}
 
 }
