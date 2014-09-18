@@ -25,7 +25,7 @@
         android:layout_alignLeft="@+id/button1"
         android:layout_alignParentTop="true"
         android:layout_marginTop="50dp"
-        android:text="@string/sms_blocker__state_stopped" />
+        android:text="@string/sms_blocker_state_stopped" />
 
     <CheckBox
         android:id="@+id/checkBox1"
@@ -38,6 +38,7 @@
 
     <Button
         android:id="@+id/button2"
+        android:onClick="launchSmsEditActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/checkBox1"

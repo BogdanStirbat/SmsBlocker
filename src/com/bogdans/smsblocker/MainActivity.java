@@ -3,6 +3,8 @@ package com.bogdans.smsblocker;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,12 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
 	
-	private boolean isStarted = false;
+	private boolean isActive = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
-		isStarted = false;
+		isActive = false;
 	}
 
 	@Override
@@ -49,6 +53,18 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		loadState();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		persistState();
+	}
 
 	/**
 	 * A placeholder fragment containing a simple view.
@@ -68,32 +84,98 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	public void changeBlockerState(View view) {
-		if (!isStarted) {
-			startBlockerState(view);
+		if (!isActive) {
+			isActive = true;
+			showActiveOnUI();
+			Toast.makeText(getApplicationContext(), "SmsBlocker has started",
+					Toast.LENGTH_SHORT).show();
 		} else {
-			stopBlockerState(view);
+			isActive = false;
+			showInactiveOnUI();
+			Toast.makeText(getApplicationContext(), "SmsBlocker has stopped",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 	
-	private void startBlockerState(View view) {
-		isStarted = true;
-		Toast.makeText(getApplicationContext(), "SmsBlocker has started",
-				Toast.LENGTH_LONG).show();
-		Button startButton = getStartButton();
-		startButton.setText(R.string.stop_sms_blocker);
+	public void launchSmsEditActivity(View view) {
+		Intent startSmsActivityIntent = new Intent(MainActivity.this, SmsEditorActivity.class);
+		MainActivity.this.startActivity(startSmsActivityIntent);
 	}
 	
-	private void stopBlockerState(View view) {
-		isStarted = false;
-		Toast.makeText(getApplicationContext(), "SmsBlocker has stopped",
-				Toast.LENGTH_LONG).show();
+	private void showActiveOnUI() {
+		Button startButton = getStartButton();
+		startButton.setText(R.string.stop_sms_blocker);
+		TextView stateText = getStateTextView();
+		stateText.setText(R.string.sms_blocker_state_started);
+	}
+	
+	private void showInactiveOnUI() {
 		Button startButton = getStartButton();
 		startButton.setText(R.string.start_sms_blocker);
+		TextView stateText = getStateTextView();
+		stateText.setText(R.string.sms_blocker_state_stopped);
+	}
+	
+	private void loadState() {
+		loadAndSetIsActive();
+		adjustStateToIsActive();
+		loadSendSms();
+	}
+	
+	private void loadAndSetIsActive() {
+		SharedPreferences settings = getSharedPreferences(SharedPreferencesConstants.PREF_FILE_NAME, 0);
+		isActive = settings.getBoolean(SharedPreferencesConstants.ACTIVE, false);
+	}
+	
+	private void adjustStateToIsActive() {
+		if (isActive) {
+			showActiveOnUI();
+		} else {
+			showInactiveOnUI();
+		}
+	}
+	
+	private void loadSendSms() {
+		SharedPreferences settings = getSharedPreferences(SharedPreferencesConstants.PREF_FILE_NAME, 0);
+		boolean sendSms = settings.getBoolean(SharedPreferencesConstants.SEND_SMS_MESSAGE, false);
+		CheckBox sendSmsCheckBox = getSendSmsCheckBox();
+		sendSmsCheckBox.setChecked(sendSms);
+	}
+	
+	
+	private void persistState() {
+		persistActive();
+		persistSendSms();
+	}
+	
+	private void persistActive() {
+		SharedPreferences settings = getSharedPreferences(SharedPreferencesConstants.PREF_FILE_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean(SharedPreferencesConstants.ACTIVE, isActive);
+		editor.commit();
+	}
+	
+	private void persistSendSms() {
+		SharedPreferences settings = getSharedPreferences(SharedPreferencesConstants.PREF_FILE_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		CheckBox sendSmsCheckBox = getSendSmsCheckBox();
+		boolean sendSms = sendSmsCheckBox.isChecked();
+		editor.putBoolean(SharedPreferencesConstants.SEND_SMS_MESSAGE, sendSms);
+		editor.commit();
 	}
 	
 	private Button getStartButton() {
 		Button startButton = (Button) findViewById(R.id.button1);
 		return startButton;
 	}
-
+	
+	private TextView getStateTextView() {
+		TextView textView = (TextView) findViewById(R.id.textView1);
+		return textView;
+	}
+	
+	private CheckBox getSendSmsCheckBox() {
+		CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox1);
+		return checkBox;
+	}
 }
