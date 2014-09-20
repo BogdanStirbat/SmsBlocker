@@ -29,11 +29,7 @@
             android:label="@string/title_activity_sms_editor" >
         </activity>
         
-        <receiver android:name=".PhoneStateListenerReceiver">
-            <intent-filter android:priority="0">
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-        </receiver>
+        <service android:name=".PhoneService" />
     </application>
 
 </manifest>
