@@ -1,4 +1,10 @@
-package com.bogdans.smsblocker;
+package com.bogdans.smsblocker.activities;
+
+import com.bogdans.smsblocker.R;
+import com.bogdans.smsblocker.R.id;
+import com.bogdans.smsblocker.R.layout;
+import com.bogdans.smsblocker.R.menu;
+import com.bogdans.smsblocker.constants.SharedPreferencesConstants;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;

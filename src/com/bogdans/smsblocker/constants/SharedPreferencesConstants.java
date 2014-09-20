@@ -1,4 +1,4 @@
-package com.bogdans.smsblocker;
+package com.bogdans.smsblocker.constants;
 
 public class SharedPreferencesConstants {
 	
