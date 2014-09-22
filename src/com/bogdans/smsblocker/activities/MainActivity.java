@@ -186,7 +186,6 @@ public class MainActivity extends ActionBarActivity {
 		boolean sendSms = sendSmsCheckBox.isChecked();
 		editor.putBoolean(SharedPreferencesConstants.SEND_SMS_MESSAGE, sendSms);
 		editor.commit();
-		Log.d("SEND_SMS", "sendSms: " + sendSms);
 	}
 	
 	private Button getStartButton() {

@@ -4,12 +4,14 @@ import java.lang.reflect.Method;
 
 import com.bogdans.smsblocker.constants.IntentContstants;
 import com.bogdans.smsblocker.constants.SharedPreferencesConstants;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -81,11 +83,9 @@ public class PhoneService extends Service{
 		if (smsMessage == null || smsMessage.trim().length() == 0) {
 			return false;
 		}
-		String uriString = "smsto:" + phoneNumber;
-		Uri uri = Uri.parse(uriString);
-		Intent intent = new Intent(Intent.ACTION_SENDTO, uri);  
-		intent.putExtra("sms_body", smsMessage);
-		startActivity(intent);
+		SmsManager smsManager = SmsManager.getDefault();
+		smsManager.sendTextMessage(phoneNumber, null, smsMessage, null, null);
+		Log.d("SERVICE", "[sendSmsMessage] message:" + smsMessage + " to " + phoneNumber);
 		return true;
 	}
 }
