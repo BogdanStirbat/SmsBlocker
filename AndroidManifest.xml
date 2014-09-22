@@ -9,6 +9,7 @@
         android:targetSdkVersion="19" />
     
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,12 @@
             android:label="@string/title_activity_sms_editor" >
         </activity>
         
+        <receiver android:name="com.bogdans.smsblocker.phonelistener.PhoneStateListenerReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
+                
         <service android:enabled="true" android:name="com.bogdans.smsblocker.service.PhoneService" />
     </application>
 

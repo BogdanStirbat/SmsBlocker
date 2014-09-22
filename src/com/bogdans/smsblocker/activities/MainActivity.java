@@ -97,16 +97,15 @@ public class MainActivity extends ActionBarActivity {
 		if (!isActive) {
 			isActive = true;
 			showActiveOnUI();
-			startBrackgroundService();
 			Toast.makeText(getApplicationContext(), "SmsBlocker has started",
 					Toast.LENGTH_SHORT).show();
 		} else {
 			isActive = false;
 			showInactiveOnUI();
-			stopBackgroundService();
 			Toast.makeText(getApplicationContext(), "SmsBlocker has stopped",
 					Toast.LENGTH_SHORT).show();
 		}
+		persistActive();
 	}
 	
 	public void launchSmsEditActivity(View view) {
@@ -126,20 +125,6 @@ public class MainActivity extends ActionBarActivity {
 		startButton.setText(R.string.start_sms_blocker);
 		TextView stateText = getStateTextView();
 		stateText.setText(R.string.sms_blocker_state_stopped);
-	}
-	
-	private void startBrackgroundService() {
-		Context context = getApplicationContext();
-		Intent startServiceIntent = new Intent(context, PhoneService.class);
-		Log.d("ACTIVITY", "START");
-		startService(startServiceIntent);
-	}
-	
-	private void stopBackgroundService() {
-		Context context = getApplicationContext();
-		Intent stopServiceIntent = new Intent(context, PhoneService.class);
-		Log.d("ACTIVITY", "STOP");
-		stopService(stopServiceIntent);
 	}
 	
 	private void loadState() {
