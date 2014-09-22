@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
@@ -131,6 +133,7 @@ public class MainActivity extends ActionBarActivity {
 		loadAndSetIsActive();
 		adjustStateToIsActive();
 		loadSendSms();
+		attachOnCheckedChangedListener();
 	}
 	
 	private void loadAndSetIsActive() {
@@ -153,6 +156,16 @@ public class MainActivity extends ActionBarActivity {
 		sendSmsCheckBox.setChecked(sendSms);
 	}
 	
+	private void attachOnCheckedChangedListener() {
+		CheckBox sendSmsCheckBox = getSendSmsCheckBox();
+		sendSmsCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				persistSendSms();
+			}
+		});
+	}
+	
 	
 	private void persistState() {
 		persistActive();
@@ -173,6 +186,7 @@ public class MainActivity extends ActionBarActivity {
 		boolean sendSms = sendSmsCheckBox.isChecked();
 		editor.putBoolean(SharedPreferencesConstants.SEND_SMS_MESSAGE, sendSms);
 		editor.commit();
+		Log.d("SEND_SMS", "sendSms: " + sendSms);
 	}
 	
 	private Button getStartButton() {
