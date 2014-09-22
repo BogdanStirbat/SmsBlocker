@@ -12,6 +12,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.widget.Toast;
 
 public class PhoneService extends Service{
 	
@@ -26,6 +28,7 @@ public class PhoneService extends Service{
 		}
 		IntentFilter startReceiver = createIntentFilterForPhoneBroadcastReceiver();
 		registerReceiver(phoneReceiver, startReceiver);
+		Log.d("SERVICE", "START");
 		return Service.START_NOT_STICKY;
 	}
 	
@@ -35,7 +38,9 @@ public class PhoneService extends Service{
 			unregisterReceiver(phoneReceiver);
 			phoneReceiver = null;
 		}
+		Log.d("SERVICE", "STOP");
 	}
+	
 
 	@Override
 	public IBinder onBind(Intent intent) {

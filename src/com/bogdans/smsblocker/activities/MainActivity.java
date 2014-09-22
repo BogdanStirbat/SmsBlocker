@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -130,13 +131,15 @@ public class MainActivity extends ActionBarActivity {
 	private void startBrackgroundService() {
 		Context context = getApplicationContext();
 		Intent startServiceIntent = new Intent(context, PhoneService.class);
-		context.startService(startServiceIntent);
+		Log.d("ACTIVITY", "START");
+		startService(startServiceIntent);
 	}
 	
 	private void stopBackgroundService() {
 		Context context = getApplicationContext();
 		Intent stopServiceIntent = new Intent(context, PhoneService.class);
-		context.stopService(stopServiceIntent);
+		Log.d("ACTIVITY", "STOP");
+		stopService(stopServiceIntent);
 	}
 	
 	private void loadState() {

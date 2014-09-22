@@ -29,7 +29,7 @@
             android:label="@string/title_activity_sms_editor" >
         </activity>
         
-        <service android:name=".PhoneService" />
+        <service android:enabled="true" android:name="com.bogdans.smsblocker.service.PhoneService" />
     </application>
 
 </manifest>
