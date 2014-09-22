@@ -33,6 +33,7 @@ public class PhoneService extends Service{
 				sendSmsMessage(phoneNumber);
 			}
 		}
+		stopSelf();
 		return Service.START_NOT_STICKY;
 	}
 	
