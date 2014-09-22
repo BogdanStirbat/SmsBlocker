@@ -27,7 +27,6 @@ public class PhoneService extends Service{
 		String phoneNumber = intent.getExtras().getString(IntentContstants.PHONE_NUMBER);
 		Log.d("SERVICE", "Phone arrived: " + phoneNumber);
 		if (phoneNumber != null && blockCalls) {
-			Log.d("SERVICE", "Start KILL call");
 			killCall(context);
 		}
 		return Service.START_NOT_STICKY;
@@ -51,29 +50,21 @@ public class PhoneService extends Service{
 	
 	public boolean killCall(Context context) {
 		try {
-			Log.d("SERVICE", "[killCall] 1");
 			TelephonyManager telephonyManager =
                     (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-			Log.d("SERVICE", "[killCall] 2");
 			Class classTelephony = Class.forName(telephonyManager.getClass().getName());
-			Log.d("SERVICE", "[killCall] 3");
 			Method methodGetITelephony = classTelephony.getDeclaredMethod("getITelephony");
-			Log.d("SERVICE", "[killCall] 4");
 			
 			methodGetITelephony.setAccessible(true);
-			Log.d("SERVICE", "[killCall] 5");
 			Object telephonyInterface = methodGetITelephony.invoke(telephonyManager);
-			Log.d("SERVICE", "[killCall] 6");
 			Class telephonyInterfaceClass =  
                     Class.forName(telephonyInterface.getClass().getName());
-			Log.d("SERVICE", "[killCall] 7");
 			Method methodEndCall = telephonyInterfaceClass.getDeclaredMethod("endCall");
-			Log.d("SERVICE", "[killCall] 8");
 			
-			Log.d("SERVICE", "[killCall] 9");
 			methodEndCall.invoke(telephonyInterface);
-			Log.d("SERVICE", "[killCall] 10");
+			Log.d("SERVICE", "[killCall] SUCCESSS");
 		} catch (Exception e) {
+			Log.d("SERVICE", "[killCall] FALSE");
 			return false;
 		}
 		return true;
