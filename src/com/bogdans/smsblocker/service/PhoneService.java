@@ -40,7 +40,6 @@ public class PhoneService extends Service{
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -55,6 +54,11 @@ public class PhoneService extends Service{
 		smsMessage = preferences.getString(SharedPreferencesConstants.SMS_MESSAGE, "");
 	}
 	
+	/**
+	 * See http://stackoverflow.com/questions/23097944/can-i-hang-up-a-call-programmatically-in-android
+	 * @param context the Application Context
+	 * @return if successfully killed the incoming call
+	 */
 	public boolean killCall(Context context) {
 		try {
 			TelephonyManager telephonyManager =

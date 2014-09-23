@@ -1,16 +1,11 @@
 package com.bogdans.smsblocker.phonelistener;
 
-import java.lang.reflect.Method;
-
 import com.bogdans.smsblocker.constants.IntentContstants;
-import com.bogdans.smsblocker.constants.SharedPreferencesConstants;
 import com.bogdans.smsblocker.service.PhoneService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
