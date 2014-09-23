@@ -1,3 +1,5 @@
+This application blocks incoming phone messages.
+On request, an SMS message can be send for each SMS message.
 
 Start from emulator:
 adb devices
